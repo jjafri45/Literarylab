@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact – Literary Lab Publishing Studio</title>
+  <meta name="description" content="Get a free quote for your book project. Contact Literary Lab via WhatsApp, email, or our online form."/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<script src="components/header.js"></script>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Contact</div>
+    <div class="eyebrow">Get In Touch</div>
+    <h1>Let's Bring Your <em>Book</em> to Life</h1>
+    <p>Reach out via any channel. We typically respond within a few hours. WhatsApp is the fastest.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CONTACT SECTION
+══════════════════════════════════════ -->
+<section class="section" style="background:var(--white);">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- LEFT — CONTACT INFO -->
+      <div>
+        <div class="reveal">
+          <div class="eyebrow">Reach Us</div>
+          <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.5rem);">We're <em>Here</em> For You</h2>
+          <div class="divider"></div>
+          <p style="color:var(--gray-500);font-size:0.9rem;line-height:1.8;margin-bottom:32px;">
+            Whether you have a manuscript ready or you're still in the planning stage — we're happy to chat. No commitment required to get a quote.
+          </p>
+        </div>
+
+        <!-- WhatsApp -->
+        <a href="https://wa.me/923472590983" target="_blank" class="contact-method reveal">
+          <div class="method-icon">💬</div>
+          <div>
+            <div class="method-label">WhatsApp — Fastest Response</div>
+            <div class="method-value">+92-347-2590983</div>
+          </div>
+        </a>
+
+        <!-- Studio Email -->
+        <a href="mailto:lab@zorqstudio.com" class="contact-method reveal">
+          <div class="method-icon">📧</div>
+          <div>
+            <div class="method-label">Studio Email</div>
+            <div class="method-value">lab@zorqstudio.com</div>
+          </div>
+        </a>
+
+        <!-- Support Email -->
+        <a href="mailto:litverseoffcial@gmail.com" class="contact-method reveal">
+          <div class="method-icon">✉️</div>
+          <div>
+            <div class="method-label">Support Email</div>
+            <div class="method-value">litverseoffcial@gmail.com</div>
+          </div>
+        </a>
+
+        <!-- Info box -->
+        <div class="reveal" style="margin-top:28px;padding:24px;background:var(--purple-ghost);border-radius:8px;border:1px solid rgba(147,51,234,0.12);">
+          <h4 style="font-family:var(--ff-display);font-size:1rem;font-weight:600;color:var(--black);margin-bottom:10px;">Response Times</h4>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
+              <span style="color:var(--gray-500);">WhatsApp</span>
+              <span style="font-weight:500;color:var(--purple-dark);">Within 2 hours</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
+              <span style="color:var(--gray-500);">Email</span>
+              <span style="font-weight:500;color:var(--purple-dark);">Within 24 hours</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
+              <span style="color:var(--gray-500);">Quote turnaround</span>
+              <span style="font-weight:500;color:var(--purple-dark);">Same day</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zorq Studio link -->
+        <div class="reveal" style="margin-top:20px;padding:20px;background:var(--gray-100);border-radius:8px;display:flex;align-items:center;gap:14px;">
+          <div style="font-size:1.6rem;">🏢</div>
+          <div>
+            <div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-500);margin-bottom:3px;">Parent Company</div>
+            <a href="https://zorqstudio.com" target="_blank" style="font-size:0.9rem;font-weight:600;color:var(--purple-dark);">Zorq Studio — zorqstudio.com →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT — FORM -->
+      <div class="contact-form-box reveal-right">
+        <h3>Request a Free Quote</h3>
+        <p>Tell us about your project. We'll get back to you within 24 hours with a clear, itemised quote.</p>
+
+        <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+          <!-- ⚠️  SETUP REQUIRED:
+               1. Go to formspree.io — sign up free
+               2. Create new form → copy your Form ID
+               3. Replace YOUR_FORM_ID above with your real ID
+               Submissions will then arrive in your email inbox.
+          -->
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name *</label>
+              <input type="text" name="first_name" placeholder="John" required/>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" name="last_name" placeholder="Smith"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" name="email" placeholder="you@example.com" required/>
+          </div>
+
+          <div class="form-group">
+            <label>WhatsApp / Phone (optional)</label>
+            <input type="tel" name="phone" placeholder="+1 234 567 8900"/>
+          </div>
+
+          <div class="form-group">
+            <label>Service Needed *</label>
+            <select name="service" required>
+              <option value="" disabled selected>Select a service…</option>
+              <option>Starter – Interior Formatting ($199)</option>
+              <option>Professional Package – Cover + Interior + eBook ($449)</option>
+              <option>Premium Package – Full Service ($749)</option>
+              <option>Cover Design Only</option>
+              <option>eBook Conversion</option>
+              <option>Manuscript Cleanup</option>
+              <option>Rush Turnaround</option>
+              <option>Custom / Not Sure</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Genre</label>
+              <select name="genre">
+                <option value="" disabled selected>Select genre…</option>
+                <option>Fiction</option>
+                <option>Non-fiction</option>
+                <option>Business / Self-help</option>
+                <option>Children's</option>
+                <option>Romance</option>
+                <option>Thriller / Mystery</option>
+                <option>Biography / Memoir</option>
+                <option>Poetry</option>
+                <option>Academic</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Word Count (approx.)</label>
+              <input type="text" name="word_count" placeholder="e.g. 60,000"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tell Us About Your Book</label>
+            <textarea name="message" placeholder="Share your vision, deadline, any specific requirements, or questions you have…"></textarea>
+          </div>
+
+          <input type="hidden" name="_subject" value="New Literary Lab Quote Request"/>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:15px;" id="submitBtn">
+            Send My Request →
+          </button>
+
+          <p style="font-size:0.75rem;color:var(--gray-500);text-align:center;margin-top:12px;">
+            Or reach us instantly on <a href="https://wa.me/923472590983" style="color:var(--purple);">WhatsApp</a>
+          </p>
+        </form>
+
+        <div class="form-success-msg" id="formSuccess">
+          <div class="icon">✅</div>
+          <h4>Message Received!</h4>
+          <p>We'll review your project details and get back to you within 24 hours. For a faster reply, <a href="https://wa.me/923472590983" style="color:var(--purple);">message us on WhatsApp</a>.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FAQ
+══════════════════════════════════════ -->
+<section class="section" style="background:var(--purple-ghost);">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2 class="section-title">Common <em>Questions</em></h2>
+      <div class="divider center"></div>
+    </div>
+    <div style="max-width:720px;margin:50px auto 0;display:flex;flex-direction:column;gap:12px;">
+      <!-- FAQ items -->
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What file format should I send my manuscript in?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>We accept Microsoft Word (.docx) files. If you have a PDF, send that too and we'll work from whichever is most complete. Don't worry about formatting your Word file perfectly — that's our job.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How long does formatting take?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Standard turnaround is 3–5 business days for most projects. The Professional Package is typically 72 hours. Rush delivery (24–48 hours) is available for an additional fee.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Will my book be KDP / IngramSpark ready?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Yes. All our files are produced to the exact specifications of your chosen platform. We check trim size, bleed, margins, and resolution before delivery.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How many revisions are included?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Starter includes 2 revision rounds, Professional includes 3, and Premium includes 5. Additional revisions beyond your plan are available at a flat hourly rate.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do you offer payment plans?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>For larger projects, we can split payment into 50% upfront and 50% on delivery. Reach out via WhatsApp or email to discuss your project.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="components/footer.js"></script>
+
+<style>
+.faq-item {
+  background: var(--white);
+  border: 1.5px solid var(--gray-300);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+.faq-item:hover { border-color: var(--purple-light); }
+.faq-q {
+  width: 100%;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--black);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--ff-body);
+  gap: 16px;
+}
+.faq-icon {
+  font-size: 1.3rem;
+  color: var(--purple);
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a {
+  display: none;
+  padding: 0 24px 18px;
+}
+.faq-a p { font-size: 0.875rem; color: var(--gray-500); line-height: 1.75; }
+.faq-item.open .faq-a { display: block; animation: slideDown 0.25s ease; }
+</style>
+
+<script>
+// FAQ
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// FORM
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' }
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } else {
+      btn.textContent = 'Error — Try Again';
+      btn.disabled = false;
+    }
+  } catch {
+    btn.textContent = 'Error — Try Again';
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

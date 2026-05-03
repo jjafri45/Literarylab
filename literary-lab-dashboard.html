@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Literary Lab – Website Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p:#9333EA;--pd:#7C3AED;--pl:#C084FC;--pg:#FAF5FF;--pp:#F3E8FF;
+  --bk:#09090B;--g7:#3F3F46;--g5:#71717A;--g3:#D4D4D8;--g1:#F4F4F5;--wh:#FFFFFF;
+  --gn:#16A34A;--rd:#DC2626;--yw:#D97706;
+  --r:6px;--sh:0 1px 3px rgba(0,0,0,0.08);--shm:0 4px 16px rgba(107,33,168,0.1);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--g1);color:var(--bk);font-size:14px;min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+.topbar{background:var(--wh);border-bottom:1px solid var(--g3);padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;z-index:100;box-shadow:var(--sh)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-box{width:32px;height:32px;background:var(--p);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600}
+.logo-name{font-size:14px;font-weight:600}
+.logo-sub{font-size:11px;color:var(--g5)}
+.badge{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--g3);color:var(--g5);background:var(--g1)}
+.badge.ok{background:#DCFCE7;color:#15803D;border-color:#86EFAC}
+.badge.err{background:#FEE2E2;color:var(--rd);border-color:#FCA5A5}
+.topbar-r{display:flex;align-items:center;gap:10px}
+.live-btn{font-size:12px;color:var(--p);padding:5px 14px;border:1px solid var(--pp);border-radius:20px;background:var(--pg);display:none}
+.live-btn:hover{background:var(--pp)}
+
+.wrap{display:flex;padding-top:58px;min-height:100vh}
+.sb{width:200px;background:var(--wh);border-right:1px solid var(--g3);padding:12px 0;position:fixed;top:58px;bottom:0;overflow-y:auto}
+.content{margin-left:200px;flex:1;padding:24px;max-width:860px}
+
+.ns{font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--g5);padding:8px 16px 6px;margin-top:6px}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:13px;color:var(--g7);cursor:pointer;border-left:2px solid transparent;transition:all 0.15s}
+.ni:hover{background:var(--g1);color:var(--bk)}
+.ni.active{background:var(--pg);color:var(--p);border-left-color:var(--p);font-weight:500}
+
+/* setup */
+.setup{max-width:500px;margin:20px auto}
+.sc{background:var(--wh);border:1px solid var(--g3);border-radius:12px;padding:32px}
+.sc h2{font-size:18px;font-weight:600;margin-bottom:6px}
+.sc>p{font-size:13px;color:var(--g5);margin-bottom:20px;line-height:1.6}
+.warn{background:#FFFBEB;border:1px solid #FDE68A;border-radius:var(--r);padding:12px;font-size:12px;color:var(--yw);margin-bottom:18px;line-height:1.6}
+
+/* form */
+.f{margin-bottom:14px}
+.f label{display:block;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--g7);margin-bottom:5px}
+.f input,.f select,.f textarea{width:100%;padding:8px 11px;border:1px solid var(--g3);border-radius:var(--r);font-size:13px;font-family:inherit;color:var(--bk);background:var(--wh);outline:none;transition:border-color 0.15s,box-shadow 0.15s}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(147,51,234,0.1)}
+.f textarea{resize:vertical;line-height:1.5}
+.f .hint{font-size:11px;color:var(--g5);margin-top:3px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:var(--r);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;border:none;transition:all 0.15s}
+.btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--pd)}
+.btn-p:disabled{opacity:0.45;cursor:not-allowed}
+.btn-o{background:var(--wh);color:var(--g7);border:1px solid var(--g3)}.btn-o:hover{background:var(--g1)}
+.btn-d{background:var(--wh);color:var(--rd);border:1px solid #FECACA;font-size:12px;padding:5px 11px}.btn-d:hover{background:#FEF2F2}
+.btn-full{width:100%;justify-content:center;padding:10px}
+.btn-push{width:100%;justify-content:center;padding:13px;font-size:14px;font-weight:600;background:var(--p);color:#fff;border:none;border-radius:var(--r);font-family:inherit;cursor:pointer;transition:all 0.15s}
+.btn-push:hover{background:var(--pd)}
+.btn-push:disabled{opacity:0.45;cursor:not-allowed}
+
+/* page */
+.ph{margin-bottom:20px}
+.ph h2{font-size:17px;font-weight:600}
+.ph p{font-size:12px;color:var(--g5);margin-top:3px}
+.card{background:var(--wh);border:1px solid var(--g3);border-radius:10px;padding:20px;margin-bottom:14px}
+.card h3{font-size:13px;font-weight:600;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--g1);color:var(--bk)}
+.abar{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid var(--g1)}
+.st{font-size:12px;color:var(--g5)}.st.ok{color:var(--gn)}.st.err{color:var(--rd)}.st.ld{color:var(--p)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stt{background:var(--wh);border:1px solid var(--g3);border-radius:10px;padding:14px;text-align:center}
+.stn{font-size:22px;font-weight:700;color:var(--p)}
+.stl{font-size:11px;color:var(--g5);margin-top:2px}
+
+/* portfolio rows */
+.pr{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--g3);border-radius:var(--r);margin-bottom:7px;background:var(--wh)}
+.pt{width:34px;height:44px;border-radius:4px;background:var(--pp);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.pi{flex:1;min-width:0}
+.pit{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pim{font-size:11px;color:var(--g5);margin-top:1px}
+.cb{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--pg);color:var(--p);font-weight:500;margin-left:4px}
+.db{border:1.5px dashed var(--g3);border-radius:10px;padding:18px;background:var(--g1);margin-top:12px}
+.db h4{font-size:13px;font-weight:600;margin-bottom:12px}
+
+/* pricing */
+.pe{background:var(--wh);border:1px solid var(--g3);border-radius:10px;padding:18px;margin-bottom:12px}
+.pe h4{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.pc{font-size:10px;padding:3px 10px;border-radius:20px;background:var(--pp);color:var(--p);font-weight:600}
+
+/* team */
+.tc{background:var(--wh);border:1px solid var(--g3);border-radius:10px;padding:18px;margin-bottom:12px}
+.th{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.av{width:38px;height:38px;border-radius:50%;background:var(--pp);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+
+/* push */
+.pcard{background:var(--wh);border:1px solid var(--g3);border-radius:10px;padding:22px}
+.cl{list-style:none;margin:10px 0 14px}
+.cl li{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--g1);font-size:13px;color:var(--g7)}
+.cl li:last-child{border-bottom:none}
+.fd{width:6px;height:6px;border-radius:50%;background:var(--p);flex-shrink:0}
+.pi2{margin-top:14px;padding:11px 13px;background:var(--pg);border-radius:var(--r);font-size:12px;color:#6B21A8;line-height:1.6}
+.ps{margin-top:10px;font-size:13px;font-weight:500;text-align:center;min-height:18px}
+.ps.ok{color:var(--gn)}.ps.err{color:var(--rd)}.ps.ld{color:var(--p)}
+.prog{height:4px;background:var(--g1);border-radius:2px;overflow:hidden;margin-top:10px;display:none}
+.pb{height:100%;background:var(--p);border-radius:2px;width:0;transition:width 0.4s}
+
+@media(max-width:700px){.sb{display:none}.content{margin-left:0}.row2{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-box">LL</div>
+    <div><div class="logo-name">Literary Lab Dashboard</div><div class="logo-sub">Website Manager</div></div>
+  </div>
+  <div class="topbar-r">
+    <a id="liveBtn" class="live-btn" href="#" target="_blank">View Live Site →</a>
+    <div class="badge" id="badge">Not connected</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="sb" id="sb" style="display:none">
+    <div class="ns">Pages</div>
+    <div class="ni active" onclick="go('overview')">🏠 Overview</div>
+    <div class="ni" onclick="go('contact')">✉️ Contact Info</div>
+    <div class="ni" onclick="go('hero')">⭐ Hero Text</div>
+    <div class="ni" onclick="go('portfolio')">🖼️ Portfolio</div>
+    <div class="ni" onclick="go('pricing')">💰 Pricing</div>
+    <div class="ni" onclick="go('team')">👥 Team</div>
+    <div class="ns">Actions</div>
+    <div class="ni" onclick="go('push')">🚀 Push to Live</div>
+    <div class="ni" onclick="logout()">🔌 Disconnect</div>
+  </div>
+  <div class="content" id="ct">
+    <!-- SETUP -->
+    <div id="sv">
+      <div class="setup">
+        <div class="sc">
+          <h2>Connect to GitHub</h2>
+          <p>Open this file directly in your browser. It connects to GitHub and lets you update your site from here.</p>
+          <div class="warn">
+            Your token needs <strong>repo</strong> permission.<br/>
+            GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token → check <strong>repo</strong> → Generate → copy it.
+          </div>
+          <div class="f"><label>GitHub Username</label><input id="u" value="jjafri45"/></div>
+          <div class="f"><label>Repository Name</label><input id="r" value="Literarylab"/></div>
+          <div class="f"><label>Personal Access Token</label><input id="t" type="password" placeholder="ghp_xxxxxxxxxxxxxxxx"/><div class="hint">Only used to talk to GitHub. Never stored or sent anywhere else.</div></div>
+          <button class="btn btn-p btn-full" id="cb" onclick="connect()">Connect to GitHub →</button>
+          <div id="cm" style="margin-top:10px;font-size:12px;text-align:center;min-height:16px;color:var(--g5)"></div>
+          <div class="prog" id="cp"><div class="pb" id="cpb"></div></div>
+        </div>
+      </div>
+    </div>
+    <!-- DASH -->
+    <div id="dv" style="display:none"><div id="pc"></div></div>
+  </div>
+</div>
+
+<script>
+const GH={u:'',r:'',t:''};
+const pending={};
+const D={
+  contact:{phone:'+92-347-2590983',wa:'923472590983',e1:'lab@zorqstudio.com',e2:'litverseoffcial@gmail.com'},
+  hero:{h1:'Your Story<br/>Deserves to Look<br/><em>Extraordinary</em>',sub:'Literary Lab turns your manuscript into a professionally designed book — print-ready, KDP-compliant, and built to compete with traditional publishing.',b1:'Start Your Project',b2:'View Portfolio'},
+  portfolio:[
+    {title:'Book Cover Sample',cat:'cover',genre:'Fiction',img:''},
+    {title:'Interior Layout Sample',cat:'interior',genre:'Non-fiction',img:''},
+    {title:'Full Package Sample',cat:'package',genre:'Business',img:''},
+  ],
+  pricing:[
+    {name:'Starter',price:'199',desc:'Perfect for debut authors needing clean, professional formatting.',features:'Interior formatting (print)\nUp to 80,000 words\nKDP / IngramSpark ready\n2 revision rounds\n5-day turnaround'},
+    {name:'Professional',price:'449',desc:'Complete package — interior, cover design, and eBook conversion.',features:'Interior + Cover design\neBook (EPUB) conversion\nUp to 120,000 words\n3 revision rounds\n72-hour turnaround\nPriority support'},
+    {name:'Premium',price:'749',desc:'End-to-end white glove service for authors who want the best.',features:'Everything in Professional\nManuscript cleanup & prep\nUnlimited words\n5 revision rounds\n48-hour rush option\nDedicated account manager'},
+  ],
+  team:[
+    {name:'Your Name',role:'Founder & Lead Designer',bio:'Add your bio here. Tell authors about your experience and passion for books.',photo:''},
+    {name:'Designer Name',role:'Book Designer',bio:'Interior layout specialist with a passion for typography and readability.',photo:''},
+    {name:'Sheeraz A.',role:'Client Relations',bio:'Your first point of contact. Making sure every project runs smoothly.',photo:''},
+  ]
+};
+
+// ── CONNECT ──
+async function connect(){
+  const btn=document.getElementById('cb'),cm=document.getElementById('cm'),cp=document.getElementById('cp'),cpb=document.getElementById('cpb');
+  GH.u=document.getElementById('u').value.trim();
+  GH.r=document.getElementById('r').value.trim();
+  GH.t=document.getElementById('t').value.trim();
+  if(!GH.u||!GH.r||!GH.t){cm.textContent='Fill in all fields.';cm.style.color='var(--rd)';return;}
+  btn.disabled=true;btn.textContent='Connecting...';cm.textContent='';cp.style.display='block';cpb.style.width='25%';
+  try{
+    const res=await fetch(`https://api.github.com/repos/${GH.u}/${GH.r}`,{headers:{Authorization:`token ${GH.t}`,Accept:'application/vnd.github.v3+json'}});
+    cpb.style.width='80%';
+    if(!res.ok){const e=await res.json();throw new Error(e.message||'Check username, repo, and token');}
+    cpb.style.width='100%';setTimeout(()=>cp.style.display='none',600);
+    document.getElementById('badge').textContent='✓ Connected: '+GH.r;
+    document.getElementById('badge').className='badge ok';
+    const lb=document.getElementById('liveBtn');lb.href=`https://${GH.u}.github.io/${GH.r}`;lb.style.display='flex';
+    document.getElementById('sv').style.display='none';
+    document.getElementById('dv').style.display='block';
+    document.getElementById('sb').style.display='block';
+    go('overview');
+  }catch(e){
+    cm.textContent='Error: '+e.message;cm.style.color='var(--rd)';
+    cpb.style.width='0';cp.style.display='none';
+    document.getElementById('badge').className='badge err';document.getElementById('badge').textContent='Failed';
+  }
+  btn.disabled=false;btn.textContent='Connect to GitHub →';
+}
+
+function logout(){GH.u='';GH.r='';GH.t='';document.getElementById('sv').style.display='block';document.getElementById('dv').style.display='none';document.getElementById('sb').style.display='none';document.getElementById('badge').textContent='Not connected';document.getElementById('badge').className='badge';document.getElementById('liveBtn').style.display='none';document.getElementById('t').value='';}
+
+// ── NAV ──
+function go(tab){
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const labels={overview:'Overview',contact:'Contact',hero:'Hero',portfolio:'Portfolio',pricing:'Pricing',team:'Team',push:'Push'};
+  document.querySelectorAll('.ni').forEach(n=>{if(n.textContent.includes(labels[tab]))n.classList.add('active');});
+  const pages={overview:pgOverview,contact:pgContact,hero:pgHero,portfolio:pgPortfolio,pricing:pgPricing,team:pgTeam,push:pgPush};
+  document.getElementById('pc').innerHTML=(pages[tab]||pgOverview)();
+}
+
+// ── PAGES ──
+function pgOverview(){
+  const pc=Object.keys(pending).length;
+  return `<div class="ph"><h2>Overview</h2><p>Your Literary Lab website at a glance</p></div>
+  <div class="stats">
+    <div class="stt"><div class="stn">${D.portfolio.length}</div><div class="stl">Portfolio items</div></div>
+    <div class="stt"><div class="stn">${D.pricing.length}</div><div class="stl">Pricing plans</div></div>
+    <div class="stt"><div class="stn">${D.team.length}</div><div class="stl">Team members</div></div>
+    <div class="stt"><div class="stn" style="color:${pc>0?'var(--yw)':'var(--gn)'}">${pc}</div><div class="stl">Pending changes</div></div>
+  </div>
+  <div class="card"><h3>Site Links</h3>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--g1);border-radius:var(--r)"><div><div style="font-size:11px;color:var(--g5);margin-bottom:2px">LIVE WEBSITE</div><div style="font-size:13px;color:var(--p)">https://${GH.u}.github.io/${GH.r}</div></div><a href="https://${GH.u}.github.io/${GH.r}" target="_blank" class="btn btn-o" style="font-size:12px;padding:5px 12px">Open →</a></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--g1);border-radius:var(--r)"><div><div style="font-size:11px;color:var(--g5);margin-bottom:2px">GITHUB REPO</div><div style="font-size:13px;color:var(--p)">github.com/${GH.u}/${GH.r}</div></div><a href="https://github.com/${GH.u}/${GH.r}" target="_blank" class="btn btn-o" style="font-size:12px;padding:5px 12px">Open →</a></div>
+    </div>
+  </div>
+  ${pc>0?`<div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 16px;font-size:13px;color:var(--yw);display:flex;align-items:center;gap:8px"><span>⚠️</span> You have <strong>${pc} unsaved change${pc>1?'s':''}</strong> — go to <b>Push to Live</b> to update your website.</div>`:'<div style="background:#F0FDF4;border:1px solid #86EFAC;border-radius:10px;padding:12px 16px;font-size:13px;color:var(--gn)">✓ All changes pushed. Your site is up to date.</div>'}`;
+}
+
+function pgContact(){return `<div class="ph"><h2>Contact Information</h2><p>Updates all 5 pages automatically when pushed</p></div>
+  <div class="card"><h3>WhatsApp & Phone</h3>
+    <div class="row2">
+      <div class="f"><label>WhatsApp Number (no + or spaces)</label><input id="wa" value="${D.contact.wa}"/><div class="hint">Used in wa.me link. e.g. 923472590983</div></div>
+      <div class="f"><label>Display Phone Number</label><input id="ph" value="${D.contact.phone}"/><div class="hint">How it shows on the site</div></div>
+    </div>
+  </div>
+  <div class="card"><h3>Email Addresses</h3>
+    <div class="row2">
+      <div class="f"><label>Studio Email</label><input id="e1" value="${D.contact.e1}"/></div>
+      <div class="f"><label>Support Email</label><input id="e2" value="${D.contact.e2}"/></div>
+    </div>
+  </div>
+  <div class="abar"><div class="st" id="cst"></div><div style="display:flex;gap:8px"><button class="btn btn-o" onclick="go('contact')">Reset</button><button class="btn btn-p" onclick="saveContact()">Save Changes</button></div></div>`;}
+
+function saveContact(){D.contact.wa=v('wa');D.contact.phone=v('ph');D.contact.e1=v('e1');D.contact.e2=v('e2');['components/header.js','components/footer.js','contact.html','index.html'].forEach(f=>pending[f]=true);setSt('cst','Saved ✓ — push to update site','ok');}
+
+function pgHero(){return `<div class="ph"><h2>Home Page Hero</h2><p>The first thing visitors see on your homepage</p></div>
+  <div class="card"><h3>Headline</h3>
+    <div class="f"><label>Headline (use &lt;br/&gt; for line breaks, &lt;em&gt; for italic purple text)</label><textarea id="h1" rows="3">${D.hero.h1}</textarea></div>
+    <div class="f"><label>Subheading</label><textarea id="hs" rows="3">${D.hero.sub}</textarea></div>
+  </div>
+  <div class="card"><h3>Buttons</h3>
+    <div class="row2">
+      <div class="f"><label>Primary Button</label><input id="b1" value="${D.hero.b1}"/></div>
+      <div class="f"><label>Secondary Button</label><input id="b2" value="${D.hero.b2}"/></div>
+    </div>
+  </div>
+  <div class="abar"><div class="st" id="hst"></div><button class="btn btn-p" onclick="saveHero()">Save Changes</button></div>`;}
+
+function saveHero(){D.hero.h1=document.getElementById('h1').value;D.hero.sub=document.getElementById('hs').value;D.hero.b1=v('b1');D.hero.b2=v('b2');pending['index.html']=true;setSt('hst','Saved ✓ — push to update site','ok');}
+
+function pgPortfolio(){
+  const rows=D.portfolio.map((p,i)=>`
+  <div class="pr">
+    <div class="pt">${catIcon(p.cat)}</div>
+    <div class="pi"><div class="pit">${p.title}</div><div class="pim">${p.genre}<span class="cb">${catLabel(p.cat)}</span>${p.img?`<span style="color:var(--gn);margin-left:6px;">✓ ${p.img}</span>`:'<span style="color:var(--yw);margin-left:6px;">⚠ no image</span>'}</div></div>
+    <button class="btn btn-d" onclick="rmPort(${i})">Remove</button>
+  </div>`).join('')||'<p style="color:var(--g5);font-size:13px;padding:12px">No items yet.</p>';
+  return `<div class="ph"><h2>Portfolio</h2><p>Manages both portfolio.html (full page) and the 3-item preview on index.html</p></div>
+  <div class="card"><h3>Current Items (${D.portfolio.length})</h3>${rows}</div>
+  <div class="db"><h4>➕ Add New Item</h4>
+    <div class="row2">
+      <div class="f"><label>Book / Project Title</label><input id="nt" placeholder="The Silent Path"/></div>
+      <div class="f"><label>Genre</label><input id="ng" placeholder="Thriller"/></div>
+    </div>
+    <div class="row2">
+      <div class="f"><label>Category</label><select id="nc"><option value="cover">Cover Design</option><option value="interior">Interior Layout</option><option value="package">Full Package</option><option value="ebook">eBook</option></select></div>
+      <div class="f"><label>Image filename</label><input id="ni" placeholder="cover-title.jpg"/><div class="hint">File must be in /images/ folder on GitHub</div></div>
+    </div>
+    <button class="btn btn-p" onclick="addPort()">Add Item</button>
+  </div>
+  <div class="abar"><div class="st" id="pst"></div><button class="btn btn-p" onclick="savePort()">Save All Changes</button></div>`;}
+
+function addPort(){const t=v('nt');if(!t){alert('Enter a title.');return;}D.portfolio.push({title:t,cat:v('nc'),genre:v('ng')||'Various',img:v('ni')});go('portfolio');}
+function rmPort(i){if(!confirm('Remove this item?'))return;D.portfolio.splice(i,1);go('portfolio');}
+function savePort(){pending['portfolio.html']=true;pending['index.html']=true;setSt('pst','Saved ✓ — push to update site','ok');}
+
+function pgPricing(){
+  const cards=D.pricing.map((p,i)=>`
+  <div class="pe">
+    <h4>${p.name} Plan <span class="pc">$${p.price}</span></h4>
+    <div class="row2">
+      <div class="f"><label>Plan Name</label><input value="${p.name}" oninput="D.pricing[${i}].name=this.value"/></div>
+      <div class="f"><label>Price ($)</label><input type="number" value="${p.price}" oninput="D.pricing[${i}].price=this.value;this.closest('.pe').querySelector('.pc').textContent='$'+this.value"/></div>
+    </div>
+    <div class="f"><label>Short Description</label><input value="${p.desc}" oninput="D.pricing[${i}].desc=this.value"/></div>
+    <div class="f"><label>Features (one per line)</label><textarea rows="6" oninput="D.pricing[${i}].features=this.value">${p.features}</textarea></div>
+  </div>`).join('');
+  return `<div class="ph"><h2>Pricing Plans</h2><p>Updates the services page pricing section</p></div>${cards}
+  <div class="abar"><div class="st" id="prst"></div><button class="btn btn-p" onclick="savePricing()">Save Changes</button></div>`;}
+
+function savePricing(){pending['services.html']=true;setSt('prst','Saved ✓ — push to update site','ok');}
+
+function pgTeam(){
+  const cards=D.team.map((m,i)=>`
+  <div class="tc">
+    <div class="th"><div class="av">${m.photo?'📷':'👤'}</div><div><strong>${m.name}</strong><br/><span style="font-size:12px;color:var(--g5)">${m.role}</span></div></div>
+    <div class="row2">
+      <div class="f"><label>Name</label><input value="${m.name}" oninput="D.team[${i}].name=this.value"/></div>
+      <div class="f"><label>Role</label><input value="${m.role}" oninput="D.team[${i}].role=this.value"/></div>
+    </div>
+    <div class="f"><label>Bio</label><textarea oninput="D.team[${i}].bio=this.value">${m.bio}</textarea></div>
+    <div class="f"><label>Photo filename (in /images/ folder)</label><input value="${m.photo||''}" placeholder="team-name.jpg" oninput="D.team[${i}].photo=this.value"/></div>
+  </div>`).join('');
+  return `<div class="ph"><h2>Team Members</h2><p>Updates the About page team section</p></div>${cards}
+  <div class="abar"><div class="st" id="tst"></div><button class="btn btn-p" onclick="saveTeam()">Save Changes</button></div>`;}
+
+function saveTeam(){pending['about.html']=true;setSt('tst','Saved ✓ — push to update site','ok');}
+
+function pgPush(){
+  const keys=Object.keys(pending);
+  const list=keys.length?keys.map(k=>`<li><div class="fd"></div>${k}</li>`).join(''):'<li style="color:var(--g5)">No pending changes — edit a section first</li>';
+  return `<div class="ph"><h2>Push to Live</h2><p>Send all saved changes to GitHub — site updates in 1–2 minutes</p></div>
+  <div class="pcard">
+    <div style="font-size:13px;font-weight:500;margin-bottom:6px">Files to update (${keys.length})</div>
+    <ul class="cl">${list}</ul>
+    <button class="btn-push" id="pb" ${keys.length===0?'disabled':''} onclick="pushAll()">${keys.length===0?'No changes to push':'Push '+keys.length+' file'+(keys.length>1?'s':'')+' to GitHub →'}</button>
+    <div class="prog" id="pp"><div class="pb2" id="ppb" style="height:100%;background:var(--p);border-radius:2px;width:0;transition:width 0.4s"></div></div>
+    <div class="ps" id="ps"></div>
+    <div class="pi2">After pushing, GitHub Pages rebuilds automatically. Allow 1–2 minutes then check your live site.</div>
+  </div>`;}
+
+// ── HTML GENERATORS ──
+function catIcon(c){return{cover:'📗',interior:'📄',package:'✨',ebook:'📱'}[c]||'📗';}
+function catLabel(c){return{cover:'Cover Design',interior:'Interior Layout',package:'Full Package',ebook:'eBook'}[c]||c;}
+
+function genPortfolioItems(){
+  return D.portfolio.map((p,i)=>{
+    const img=p.img?`<img src="images/${p.img}" alt="${esc(p.title)}" class="portfolio-thumb"/>`:`<div class="portfolio-placeholder"><span>${catIcon(p.cat)}</span><p>${esc(p.title)}</p></div>`;
+    return `      <div class="portfolio-item reveal" data-category="${p.cat}">
+        ${img}
+        <div class="portfolio-badge">${catLabel(p.cat)}</div>
+        <div class="portfolio-overlay"><div class="portfolio-overlay-content"><h4>${esc(p.title)}</h4><span>${catLabel(p.cat)} · ${esc(p.genre)}</span></div></div>
+      </div>`;
+  }).join('\n');
+}
+
+function genMiniPortfolio(){
+  const items=D.portfolio.slice(0,3);
+  const delays=['','delay-2','delay-4'];
+  return items.map((p,i)=>{
+    const img=p.img?`<img src="images/${p.img}" alt="${esc(p.title)}" class="portfolio-thumb"/>`:`<div class="portfolio-placeholder"><span>${catIcon(p.cat)}</span><p>${esc(p.title)}</p></div>`;
+    return `      <div class="mini-portfolio-item reveal ${delays[i]}">
+        ${img}
+        <div class="portfolio-badge">${catLabel(p.cat)}</div>
+        <div class="portfolio-overlay"><div class="portfolio-overlay-content"><h4>${esc(p.title)}</h4><span>${catLabel(p.cat)} · ${esc(p.genre)}</span></div></div>
+      </div>`;
+  }).join('\n');
+}
+
+function genPricing(){
+  return D.pricing.map((p,i)=>{
+    const isPopular=i===1;
+    const features=p.features.split('\n').filter(Boolean).map(f=>`<div class="plan-feature"><div class="feature-check" ${isPopular?'style="background:rgba(255,255,255,0.15);color:var(--purple-light);"':''}>✓</div>${esc(f)}</div>`).join('\n          ');
+    return `      <div class="pricing-card${isPopular?' popular':''} reveal${i===1?' delay-2':i===2?' delay-4':''}">
+        ${isPopular?'<div class="popular-badge">Most Popular</div>':''}
+        <div class="plan-name" ${isPopular?'style="color:var(--purple-light);"':''}>${esc(p.name)}</div>
+        <div class="plan-price"><sup>$</sup>${esc(p.price)}</div>
+        <div class="plan-desc">${esc(p.desc)}</div>
+        <div class="plan-features-list">
+          ${features}
+        </div>
+        <a href="contact.html" class="btn ${isPopular?'btn-white':'btn-outline'}" style="display:block;text-align:center;">Get Started</a>
+      </div>`;
+  }).join('\n');
+}
+
+function genTeam(){
+  const delays=['','delay-2','delay-4'];
+  return D.team.map((m,i)=>{
+    const photo=m.photo?`<img src="images/${esc(m.photo)}" alt="${esc(m.name)}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 18px;display:block;"/>`:`<div style="width:80px;height:80px;border-radius:50%;background:var(--purple-pale);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 18px;">👤</div>`;
+    return `      <div class="reveal ${delays[i]}" style="background:var(--white);border:1px solid rgba(147,51,234,0.1);border-radius:8px;padding:36px;text-align:center;">
+        ${photo}
+        <h4 style="font-family:var(--ff-display);font-size:1.1rem;font-weight:600;color:var(--black);margin-bottom:4px;">${esc(m.name)}</h4>
+        <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--purple);font-weight:600;margin-bottom:12px;">${esc(m.role)}</div>
+        <p style="font-size:0.85rem;color:var(--gray-500);line-height:1.7;">${esc(m.bio)}</p>
+      </div>`;
+  }).join('\n');
+}
+
+function genHero(){
+  return `      <h1 class="reveal delay-1">${D.hero.h1}</h1>
+      <p class="reveal delay-2">${esc(D.hero.sub)}</p>
+      <div class="hero-actions reveal delay-3">
+        <a href="contact.html" class="btn btn-primary btn-arrow">${esc(D.hero.b1)}</a>
+        <a href="portfolio.html" class="btn btn-outline">${esc(D.hero.b2)}</a>
+      </div>`;
+}
+
+function patchContact(html){
+  return html
+    .replace(/wa\.me\/\d+/g,`wa.me/${D.contact.wa}`)
+    .replace(/923472590983/g,D.contact.wa)
+    .replace(/\+92-347-2590983/g,D.contact.phone)
+    .replace(/lab@zorqstudio\.com/g,D.contact.e1)
+    .replace(/litverseoffcial@gmail\.com/g,D.contact.e2);
+}
+
+function replaceSection(html,marker,newContent){
+  const start=`<!-- LL:${marker}:START -->`;
+  const end=`<!-- LL:${marker}:END -->`;
+  const si=html.indexOf(start);
+  const ei=html.indexOf(end);
+  if(si===-1||ei===-1)return html;
+  return html.slice(0,si+start.length)+'\n'+newContent+'\n      '+html.slice(ei);
+}
+
+// ── GITHUB API ──
+async function getSHA(path){
+  try{const r=await fetch(`https://api.github.com/repos/${GH.u}/${GH.r}/contents/${path}`,{headers:{Authorization:`token ${GH.t}`,Accept:'application/vnd.github.v3+json'}});if(!r.ok)return null;return(await r.json()).sha;}catch{return null;}
+}
+async function getContent(path){
+  try{const r=await fetch(`https://api.github.com/repos/${GH.u}/${GH.r}/contents/${path}`,{headers:{Authorization:`token ${GH.t}`,Accept:'application/vnd.github.v3+json'}});if(!r.ok)return null;const d=await r.json();return decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));}catch{return null;}
+}
+async function putFile(path,content,msg){
+  const sha=await getSHA(path);
+  const body={message:msg,content:btoa(unescape(encodeURIComponent(content)))};
+  if(sha)body.sha=sha;
+  const r=await fetch(`https://api.github.com/repos/${GH.u}/${GH.r}/contents/${path}`,{method:'PUT',headers:{Authorization:`token ${GH.t}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+  return r.ok;
+}
+
+// ── PUSH ALL ──
+async function pushAll(){
+  const btn=document.getElementById('pb'),ps=document.getElementById('ps'),pp=document.getElementById('pp'),ppb=document.getElementById('ppb');
+  const keys=Object.keys(pending);
+  btn.disabled=true;pp.style.display='block';ps.textContent='';ps.className='ps ld';
+  let done=0,failed=0;
+
+  const processors={
+    'index.html': async()=>{
+      let h=await getContent('index.html');if(!h)return false;
+      h=replaceSection(h,'HERO',genHero());
+      h=replaceSection(h,'MINI_PORTFOLIO',genMiniPortfolio());
+      h=patchContact(h);
+      return putFile('index.html',h,'Dashboard: update index.html');
+    },
+    'portfolio.html': async()=>{
+      let h=await getContent('portfolio.html');if(!h)return false;
+      h=replaceSection(h,'PORTFOLIO',genPortfolioItems());
+      return putFile('portfolio.html',h,'Dashboard: update portfolio.html');
+    },
+    'services.html': async()=>{
+      let h=await getContent('services.html');if(!h)return false;
+      h=replaceSection(h,'PRICING',genPricing());
+      return putFile('services.html',h,'Dashboard: update services.html');
+    },
+    'about.html': async()=>{
+      let h=await getContent('about.html');if(!h)return false;
+      h=replaceSection(h,'TEAM',genTeam());
+      return putFile('about.html',h,'Dashboard: update about.html');
+    },
+    'components/header.js': async()=>{
+      let h=await getContent('components/header.js');if(!h)return false;
+      h=patchContact(h);
+      return putFile('components/header.js',h,'Dashboard: update header contact');
+    },
+    'components/footer.js': async()=>{
+      let h=await getContent('components/footer.js');if(!h)return false;
+      h=patchContact(h);
+      return putFile('components/footer.js',h,'Dashboard: update footer contact');
+    },
+    'contact.html': async()=>{
+      let h=await getContent('contact.html');if(!h)return false;
+      h=patchContact(h);
+      return putFile('contact.html',h,'Dashboard: update contact.html');
+    },
+  };
+
+  for(const file of keys){
+    ps.textContent=`Updating ${file}...`;
+    ppb.style.width=Math.round((done/keys.length)*85)+'%';
+    try{
+      const proc=processors[file];
+      const ok=proc?await proc():false;
+      if(ok){delete pending[file];done++;}else{failed++;}
+    }catch(e){failed++;}
+  }
+
+  ppb.style.width='100%';
+  if(failed===0){
+    ps.textContent=`✓ Done! ${done} file${done>1?'s':''} updated. Site rebuilding — check live in 1–2 min.`;
+    ps.className='ps ok';
+    btn.textContent='All pushed ✓';
+  }else{
+    ps.textContent=`${done} pushed, ${failed} failed. Check your token has repo write permission.`;
+    ps.className='ps err';
+    btn.disabled=false;btn.textContent='Retry →';
+  }
+  go('push');
+}
+
+// ── UTILS ──
+function v(id){return document.getElementById(id)?.value||'';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setSt(id,msg,cls){const el=document.getElementById(id);if(el){el.textContent=msg;el.className='st '+cls;}}
+
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('sv').style.display!=='none')connect();});
+</script>
+</body>
+</html>

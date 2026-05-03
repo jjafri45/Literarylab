@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio – Literary Lab Publishing Studio</title>
+  <meta name="description" content="Browse our book cover design and interior layout portfolio."/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<script src="components/header.js"></script>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Portfolio</div>
+    <div class="eyebrow">Our Work</div>
+    <h1>Books We've <em>Designed</em></h1>
+    <p>A showcase of interior layouts and cover designs across genres — fiction, non-fiction, business, children's, and more.</p>
+  </div>
+</div>
+
+<section class="section" style="background:var(--white);">
+  <div class="container">
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-filter="all">All Work</button>
+      <button class="filter-tab" data-filter="cover">Cover Design</button>
+      <button class="filter-tab" data-filter="interior">Interior Layout</button>
+      <button class="filter-tab" data-filter="package">Full Package</button>
+      <button class="filter-tab" data-filter="ebook">eBook</button>
+    </div>
+
+    <div class="portfolio-grid" id="portfolioGrid">
+      <!-- LL:PORTFOLIO:START -->
+      <div class="portfolio-item reveal" data-category="cover">
+        <div class="portfolio-placeholder"><span>📗</span><p>Upload cover image<br/>600×800px recommended</p></div>
+        <div class="portfolio-badge">Cover Design</div>
+        <div class="portfolio-overlay"><div class="portfolio-overlay-content"><h4>Book Title Here</h4><span>Cover Design · Fiction</span></div></div>
+      </div>
+      <div class="portfolio-item reveal delay-1" data-category="interior">
+        <div class="portfolio-placeholder"><span>📄</span><p>Upload interior spread<br/>600×800px recommended</p></div>
+        <div class="portfolio-badge">Interior Layout</div>
+        <div class="portfolio-overlay"><div class="portfolio-overlay-content"><h4>Book Title Here</h4><span>Interior Layout · Non-fiction</span></div></div>
+      </div>
+      <div class="portfolio-item reveal delay-2" data-category="package">
+        <div class="portfolio-placeholder"><span>✨</span><p>Upload project image<br/>600×800px recommended</p></div>
+        <div class="portfolio-badge">Full Package</div>
+        <div class="portfolio-overlay"><div class="portfolio-overlay-content"><h4>Book Title Here</h4><span>Full Package · Business</span></div></div>
+      </div>
+      <div class="portfolio-item reveal delay-1" data-category="cover">
+        <div class="portfolio-placeholder"><span>🎨</span><p>Upload cover image<br/>600×800px recommended</p></div>
+        <div class="portfolio-badge">Cover Design</div>
+        <div class="portfolio-overlay"><div class="portfolio-overlay-content"><h4>Book Title Here</h4><span>Cover Design · Thriller</span></div></div>
+      </div>
+      <div class="portfolio-item reveal delay-2" data-category="interior">
+        <div class="portfolio-placeholder"><span>📑</span><p>Upload interior sample<br/>600×800px recommended</p></div>
+        <div class="portfolio-badge">Interior Layout</div>
+        <div class="portfolio-overlay"><div class="portfolio-overlay-content"><h4>Book Title Here</h4><span>Interior Layout · Self-help</span></div></div>
+      </div>
+      <div class="portfolio-item reveal delay-3" data-category="ebook">
+        <div class="portfolio-placeholder"><span>📱</span><p>Upload eBook screenshot<br/>600×800px recommended</p></div>
+        <div class="portfolio-badge">eBook</div>
+        <div class="portfolio-overlay"><div class="portfolio-overlay-content"><h4>Book Title Here</h4><span>eBook Conversion · Fiction</span></div></div>
+      </div>
+      <!-- LL:PORTFOLIO:END -->
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+    <img id="lightboxImg" src="" alt=""/>
+  </div>
+</div>
+
+<div class="cta-banner">
+  <div class="cta-banner-inner reveal">
+    <h2>Like What You See?</h2>
+    <p>Let's make your book look just as professional. Get a free quote today.</p>
+    <div class="cta-banner-actions">
+      <a href="contact.html" class="btn btn-white btn-arrow">Start Your Project</a>
+      <a href="https://wa.me/923472590983" target="_blank" class="btn" style="background:rgba(255,255,255,0.1);color:white;border:1.5px solid rgba(255,255,255,0.3);">💬 WhatsApp Us</a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="components/footer.js"></script>
+<script>
+document.querySelectorAll('.filter-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter=tab.dataset.filter;
+    document.querySelectorAll('.portfolio-item').forEach(item=>{
+      item.style.display=(filter==='all'||item.dataset.category===filter)?'block':'none';
+    });
+  });
+});
+document.querySelectorAll('.portfolio-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    const img=item.querySelector('.portfolio-thumb');
+    if(img){document.getElementById('lightboxImg').src=img.src;document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+  });
+});
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+</script>
+</body>
+</html>
